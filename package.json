@@ -1,6 +1,6 @@
 {
   "name": "easy-aria",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The easiest (and safest) way to manipulate ARIA attributes in HTML.",
   "main": "./dist/easy-aria.min.js",
   "module": "./dist/easy-aria.js",

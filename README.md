@@ -18,7 +18,7 @@ npm i easy-aria
 
 ## How to use
 
-Simply call the `aria()` function with an HTML Element or valid CSS selector, and use the utility methods exposed by the returned object.
+Simply call the `aria()` function with an HTML Element or valid CSS selector, and use the methods exposed by the returned object.
 
 Example:
 
@@ -32,7 +32,7 @@ aria('#menu-btn')?.expand(); // Sets the `aria-expanded` attribute to `true`
 
 ### `aria(selector)`
 
-The main function which returns a wrapped Element in an `EasyAria` object. The Element can be accessed by the [`.el` property](#el).
+The main function which returns a wrapped Element in an `EasyAria` object. The Element can be accessed through the [`.el` property](#el).
 
 #### Arguments
 
@@ -40,14 +40,14 @@ The main function which returns a wrapped Element in an `EasyAria` object. The E
 
 #### Return value
 
-- The `EasyAria` instance which wraps the specified HTML Element, `null` if a given selector does not match any element.
+- The `EasyAria` instance which wraps the specified HTML Element, or `null` if a given selector does not match any element.
 
 #### Example
 
 ```js
 let ariaToolbar = aria('div#toolbar'); // CSS Selector
 
-let menubar = document.getElementById('#menubar');
+let menubar = document.getElementById('menubar');
 let ariaMenubar = aria(menubar); // HTML Element
 ```
 
@@ -55,7 +55,7 @@ let ariaMenubar = aria(menubar); // HTML Element
 
 ### `.el`
 
-The HTML Element wrapped in the `EasyAria` object.
+The wrapped HTML Element.
 
 #### Example
 
@@ -80,8 +80,8 @@ Sets the given ARIA attribute on the wrapped Element to the given value.
 - `attribute` - The ARIA attribute to set, without its `"aria-"` prefix.
 - `value` - The value to assign to the given ARIA attribute.
   - The `value` argument is fully type-checked, and will only accept values supported by the given ARIA attribute.
-  - The `value` argument only accepts the **primitive** equivalent of relevant attribute values (e.g., `aria-level` accepts a `number`; `aria-atomic` accepts a `boolean`; `aria-hidden` accepts either a `boolean`, or the literal string `"undefined"`).
-  - For attributes which accept a `boolean` value (e.g., `aria-atomic` or `aria-hidden`), this argument can be omitted. In that case, the implied value is `true`.
+  - The `value` argument only accepts the **primitive equivalent** of relevant attribute values (e.g., `aria-level` accepts a `number`; `aria-atomic` accepts a `boolean`; `aria-hidden` accepts either a `boolean`, or the literal string `"undefined"`, etc.).
+  - This argument can be omitted for attributes which accept a `boolean` value (e.g., `aria-atomic` or `aria-hidden`). In that case, the implied value is `true`.
   - For attributes which require an _IDREF_ (e.g., `aria-activedescendant`), an HTML `Element` can be passed, as well as an arbitrary `string`. A `null` value does nothing, so the caller can directly pass the result of a `querySelector()` call.
   - For attributes which require a _List of IDREFs_ (e.g., `aria-controls`), the parameter accepts an arbitrary `string`, an `Element`, an `Array<Element>`, `NodeList<Element>`, or `null`. The caller can directly pass the result of a `querySelectorAll()` call.
   - In the case of the above two points, if an element or collection of elements are passed to `value`, their IDs are retrieved and rendered as a string. If any element does not have an ID, one is generated and assigned to it.
@@ -119,7 +119,7 @@ Retrieves the given attribute's value from the wrapped Element.
 #### Return value
 
 - The parsed DOM-rendered value of the given attribute on the wrapped Element. Returns `null` if the attribute is not present, or its value is invalid\*.
-  - The return value is converted to the **primitive** equivalent of relevant attribute values (e.g., `aria-level` returns a `number`; `aria-atomic` returns a `boolean`; `aria-hidden` returns either a `boolean`, or the literal string `"undefined"`).
+  - The return value is converted to the **primitive equivalent** of relevant attribute values (e.g., `aria-level` returns a `number`; `aria-atomic` returns a `boolean`; `aria-hidden` returns either a `boolean`, or the literal string `"undefined"`, etc.).
   - Currently, attributes which accept _IDREF_ or a _List of IDREFs_ will return their rendered string of ID(s), and not the elements themselves.
   - \* Parsing the DOM value is done strictly. That means, except for attributes which accept arbitrary strings—whose values are returned as is—values are strictly compared with their intended representation, and `null` is returned if they don't match. Hence, no whitespace around token strings is allowed, tokens are case-sensitive, and number values are casted with `Number()`, returning `null` if the result is `NaN`.
 
@@ -204,7 +204,7 @@ aria(button)
 
 ## Method chaining
 
-The `.set()`, `.setRole()`, `.unset()` and `.call()` methods, as well as all [boolean convenience methods](#boolean-methods) return the current `EasyAria` instance. This allows the caller to chain similar methods for simpler and more readable code.
+The `.set()`, `.setRole()`, `.unset()` and `.call()` methods, as well as all [setter convenience methods](#setter-methods) return the current `EasyAria` instance. This allows the caller to chain similar methods for simpler and more readable code.
 
 Example:
 
@@ -272,7 +272,7 @@ These are defined as **verbs**, and call `this.set()` under the hood. Setter met
 
 ### Boolean methods
 
-Each of these methods returns a `boolean` value, indicating if the corresponding attribute has the value `true`, or in a few cases, has a _truthy_ value.
+Each of these methods returns a `boolean` value, indicating whether the corresponding attribute has the value `true`, or in a few cases, has a _truthy_ value.
 
 | Method                 | Description                                                                                                                                                                                                                                                                                                                                  |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
