@@ -13,7 +13,7 @@ npm i easy-aria
 ### Via script tag
 
 ```html
-<script src="https://unpkg.com/easy-aria/easy-aria.min.js"></script>
+<script src="https://unpkg.com/easy-aria/dist/easy-aria.min.js"></script>
 ```
 
 ## How to use
