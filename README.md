@@ -121,7 +121,7 @@ Retrieves the given attribute's value from the wrapped Element.
 - The parsed DOM-rendered value of the given attribute on the wrapped Element. Returns `null` if the attribute is not present, or its value is invalid\*.
   - The return value is converted to the **primitive equivalent** of relevant attribute values (e.g., `aria-level` returns a `number`; `aria-atomic` returns a `boolean`; `aria-hidden` returns either a `boolean`, or the literal string `"undefined"`, etc.).
   - Currently, attributes which accept _IDREF_ or a _List of IDREFs_ will return their rendered string of ID(s), and not the elements themselves.
-  - \* Parsing the DOM value is done strictly. That means, except for attributes which accept arbitrary strings—whose values are returned as is—values are strictly compared with their intended representation, and `null` is returned if they don't match. Hence, no whitespace around token strings is allowed, tokens are case-sensitive, and number values are casted with `Number()`, returning `null` if the result is `NaN`.
+  - \* Parsing the DOM value is done strictly. That means, except for attributes which accept arbitrary strings—whose values are returned as is—values are strictly compared with their intended representation, and `null` is returned if they don't match. Hence, no whitespace around token strings is allowed, tokens are case-sensitive, and number values are cast with `Number()`, returning `null` if the result is `NaN`.
 
 #### Example
 
@@ -164,7 +164,7 @@ aria(li).unset('selected');
 
 ### `.setRole(value)`
 
-Sets the `role` atribute on the wrapped Element to the given value.
+Sets the `role` attribute on the wrapped Element to the given value.
 
 #### Arguments
 
