@@ -102,7 +102,7 @@ class EasyAria {
     }
     // Non-function passed
     if (typeof callback !== 'function') {
-      throw new TypeError('EazyAria.call() requires a function.');
+      throw new TypeError('EasyAria.call() requires a function.');
     }
     callback.call(this, this.el);
     return this;
