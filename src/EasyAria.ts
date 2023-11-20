@@ -28,24 +28,24 @@ class EasyAria {
   }
 
   /** Counter for generating new IDs. */
-  private static idCounter = 1;
+  static #idCounter = 1;
 
   /** Generates a unique ID. */
-  private static generateId(): string {
-    return `easy-aria-id-${this.idCounter++}`;
+  static #generateId(): string {
+    return `easy-aria-id-${this.#idCounter++}`;
   }
 
   /**
    * Returns the ID of a given Element. If no ID exists,
    * assigns a newly generated ID and returns it.
    */
-  private static getId(el: Element): string {
+  static #getId(el: Element): string {
     // Not element, return empty string.
     if (!(el instanceof Element)) return '';
 
     if (!el.id) {
       // No ID, generate one and assign.
-      el.id = EasyAria.generateId();
+      el.id = EasyAria.#generateId();
     }
 
     return el.id;
@@ -55,7 +55,7 @@ class EasyAria {
    * Sets the given `aria-*` attribute on the wrapped Element
    * from the un-prefixed version.
    */
-  private setAttr(attribute: keyof AriaAttributes, value: string) {
+  #setAttr(attribute: keyof AriaAttributes, value: string) {
     this.el.setAttribute(`aria-${attribute}`, value);
   }
 
@@ -209,7 +209,7 @@ class EasyAria {
         if (typeof value !== 'string') {
           throw new TypeError(`"aria-${attribute}" requires a string.`);
         }
-        this.setAttr(attribute, String(value));
+        this.#setAttr(attribute, String(value));
         break;
 
       // IDREFAttributes
@@ -218,10 +218,10 @@ class EasyAria {
       case 'errormessage':
         if (value instanceof Element) {
           // `value` is an Element
-          this.setAttr(attribute, EasyAria.getId(value));
+          this.#setAttr(attribute, EasyAria.#getId(value));
         } else if (typeof value === 'string') {
           // `value` is a string
-          this.setAttr(attribute, value);
+          this.#setAttr(attribute, value);
         } else {
           throw new TypeError(
             `"aria-${attribute}" requires a string, or pass an Element to use its ID.`
@@ -237,19 +237,19 @@ class EasyAria {
       case 'owns':
         if (value instanceof Element) {
           // `value` is an Element
-          this.setAttr(attribute, EasyAria.getId(value));
+          this.#setAttr(attribute, EasyAria.#getId(value));
         } else if (Array.isArray(value) || value instanceof NodeList) {
           // `value` is an array or NodeList of Elements
-          this.setAttr(
+          this.#setAttr(
             attribute,
             Array.prototype.map
-              .call(value, (el: Element) => EasyAria.getId(el))
+              .call(value, (el: Element) => EasyAria.#getId(el))
               .filter(Boolean)
               .join(' ')
           );
         } else if (typeof value === 'string') {
           // `value` is a string
-          this.setAttr(attribute, value);
+          this.#setAttr(attribute, value);
         } else {
           throw new TypeError(
             `"aria-${attribute}" requires a string, or pass an Element or Array/NodeList of Elements to use their IDs.`
@@ -267,12 +267,12 @@ class EasyAria {
       case 'readonly':
       case 'required':
         if (typeof value === 'undefined') {
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             default:
               throw new TypeError(
@@ -289,15 +289,15 @@ class EasyAria {
       case 'selected':
         if (typeof value === 'undefined') {
           // `value` is empty, `true` is inferred
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             case 'undefined':
-              this.setAttr(attribute, value);
+              this.#setAttr(attribute, value);
               break;
             default:
               throw new TypeError(
@@ -310,16 +310,16 @@ class EasyAria {
       case 'pressed':
         if (typeof value === 'undefined') {
           // `value` is empty, `true` is inferred
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             case 'mixed':
             case 'undefined':
-              this.setAttr(attribute, value);
+              this.#setAttr(attribute, value);
               break;
             default:
               throw new TypeError(
@@ -331,19 +331,19 @@ class EasyAria {
       case 'current':
         if (typeof value === 'undefined') {
           // `value` is empty, `true` is inferred
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             case 'page':
             case 'step':
             case 'location':
             case 'date':
             case 'time':
-              this.setAttr(attribute, value);
+              this.#setAttr(attribute, value);
               break;
             default:
               throw new TypeError(
@@ -355,19 +355,19 @@ class EasyAria {
       case 'haspopup':
         if (typeof value === 'undefined') {
           // `value` is empty, `true` is inferred
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             case 'menu':
             case 'listbox':
             case 'tree':
             case 'grid':
             case 'dialog':
-              this.setAttr(attribute, value);
+              this.#setAttr(attribute, value);
               break;
             default:
               throw new TypeError(
@@ -379,16 +379,16 @@ class EasyAria {
       case 'invalid':
         if (typeof value === 'undefined') {
           // `value` is empty, `true` is inferred
-          this.setAttr(attribute, String(true));
+          this.#setAttr(attribute, String(true));
         } else {
           switch (value) {
             case true:
             case false:
-              this.setAttr(attribute, String(value));
+              this.#setAttr(attribute, String(value));
               break;
             case 'grammar':
             case 'spelling':
-              this.setAttr(attribute, value);
+              this.#setAttr(attribute, value);
               break;
             default:
               throw new TypeError(
@@ -405,7 +405,7 @@ class EasyAria {
           case 'inline':
           case 'list':
           case 'none':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -421,7 +421,7 @@ class EasyAria {
           case 'move':
           case 'none':
           case 'popup':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -434,7 +434,7 @@ class EasyAria {
           case 'assertive':
           case 'off':
           case 'polite':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -447,7 +447,7 @@ class EasyAria {
           case 'horizontal':
           case 'undefined':
           case 'vertical':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -462,7 +462,7 @@ class EasyAria {
           case 'all':
           case 'removals':
           case 'text':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -476,7 +476,7 @@ class EasyAria {
           case 'descending':
           case 'none':
           case 'other':
-            this.setAttr(attribute, value);
+            this.#setAttr(attribute, value);
             break;
           default:
             throw new TypeError(
@@ -510,7 +510,7 @@ class EasyAria {
               `"aria-${attribute}" requires a number or numerical string.`
             );
           }
-          this.setAttr(attribute, String(num));
+          this.#setAttr(attribute, String(num));
         } else {
           throw new TypeError(
             `"aria-${attribute}" requires a number or numerical string.`
